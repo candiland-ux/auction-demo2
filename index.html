@@ -67,8 +67,9 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 .filt:hover{color:var(--ink);border-color:var(--gold-dim)}
 .filt.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .ticker{background:#100f0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:10px 0}
-.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 22s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
 .ticker-track b{color:var(--gold);font-weight:500}
+.ticker-track:hover{animation-play-state:paused}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .lock{position:absolute;inset:0;background:rgba(13,12,10,.82);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:3;text-align:center;padding:20px}
 .lock .mono{color:var(--gold);margin-bottom:8px}
@@ -76,8 +77,9 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 .toast{position:fixed;top:90px;right:20px;background:var(--card);border:1px solid var(--gold);padding:16px 20px;max-width:320px;z-index:50;transform:translateX(400px);transition:transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
 .toast.on{transform:translateX(0)}
 .toast .mono{color:var(--gold);display:block;margin-bottom:4px}
-.toast p{font-size:14px}
-.toast button{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--mute);cursor:pointer;font-size:16px}
+.toast button{position:absolute;top:4px;right:4px;background:none;border:none;color:var(--mute);cursor:pointer;font-size:22px;line-height:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;z-index:2}
+.toast button:hover{color:var(--gold)}
+.toast p{font-size:14px;padding-right:24px}
 .chat-bubble{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--gold);color:var(--bg);border:none;font-size:24px;cursor:pointer;z-index:40;box-shadow:0 6px 20px rgba(201,162,74,.4)}
 .chat-panel{position:fixed;bottom:92px;right:24px;width:320px;max-width:calc(100vw - 32px);background:var(--card);border:1px solid var(--gold-dim);display:none;z-index:41;padding:20px}
 .chat-panel.on{display:block}
