@@ -58,6 +58,14 @@ nav a:hover{color:var(--gold)}
 .spark{height:60px;width:100%;margin-top:8px}
 .spark-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);margin-top:4px}
 footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text-align:center}
+.photos{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 12px;background:rgba(0,0,0,.5);border:1px solid var(--line);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;position:relative;z-index:2;align-self:flex-start}
+.photos:hover{border-color:var(--gold);color:var(--gold)}
+.photos svg{width:11px;height:11px;fill:currentColor}
+.filters{display:flex;gap:8px;padding:20px 32px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filt{padding:8px 16px;background:transparent;border:1px solid var(--line);color:var(--mute);font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;white-space:nowrap;transition:all .2s}
+.filt:hover{color:var(--ink);border-color:var(--gold-dim)}
+.filt.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .ticker{background:#100f0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:10px 0}
 .ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
 .ticker-track b{color:var(--gold);font-weight:500}
@@ -98,6 +106,7 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 </div>
 </section>
 <div class="ticker"><div class="ticker-track" id="tick"></div></div>
+<div class="filters" id="filters"></div>
 <div class="grid" id="grid"></div>
 <div class="toast" id="toast"><button onclick="this.parentElement.classList.remove('on')">×</button><span class="mono">● New Lot Alert</span><p>1967 Shelby GT500 just listed — matches your saved criteria.</p></div>
 <button class="chat-bubble" onclick="document.getElementById('chat').classList.toggle('on')">◆</button>
@@ -106,25 +115,28 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 <footer><div class="mono">Valley Wholesale © 2026 · Members Only</div></footer>
 <script>
 const lots=[
-{n:'VW-0341',h:'Barrett-Jackson',y:2023,mk:'Porsche',md:'911 GT3 Touring',cat:'Sports',bid:218500,w:47,c:'2h 14m',tint:'#c9a24a',flags:[{t:'Service records complete — 2 dealer visits',k:'ok'},{t:'Minor stone chip, front bumper',k:'warn'}],comps:[195,200,198,205,210,208,215,220,218,225,222,218]},
-{n:'VW-0342',h:'Manheim',y:2019,mk:'Mercedes-Benz',md:'G63 AMG',cat:'SUV',bid:142000,w:38,c:'4h 02m',tint:'#4a5c6a',flags:[{t:'CarFax clean — single owner',k:'ok'},{t:'Tire wear: 60% remaining',k:'warn'}],comps:[130,135,132,138,140,142,145,143,141,144,142,142]},
-{n:'VW-0343',h:'Mecum',y:1967,mk:'Shelby',md:'GT500 Fastback',cat:'Classic',bid:385000,w:89,c:'1d 06h',tint:'#6a3a2a',tier:'Platinum',flags:[{t:'Matching numbers verified',k:'ok'},{t:'Concours restoration 2019',k:'ok'}],comps:[340,355,360,365,370,375,380,378,382,385,385,385]},
-{n:'VW-0344',h:'Copart',y:2022,mk:'Range Rover',md:'Autobiography',cat:'Luxury',bid:98500,w:22,c:'6h 48m',tint:'#3a4a3a',flags:[{t:'Factory warranty transferable',k:'ok'},{t:'Infotainment software flag',k:'warn'}],comps:[92,94,93,96,97,95,98,99,98,98,99,98]},
-{n:'VW-0345',h:'Barrett-Jackson',y:2021,mk:'Lamborghini',md:'Huracán EVO',cat:'Exotic',bid:248000,w:64,c:'3h 27m',tint:'#8a4a1a',tier:'Platinum',flags:[{t:'Carbon ceramics — 80% life',k:'ok'},{t:'One track day logged',k:'warn'}],comps:[232,238,240,245,242,248,250,248,246,248,249,248]},
-{n:'VW-0346',h:'Bring a Trailer',y:1989,mk:'BMW',md:'E30 M3',cat:'Classic',bid:128500,w:103,c:'12h 09m',tint:'#2a3a5a',flags:[{t:'Documented ownership since new',k:'ok'},{t:'Original paint, minor patina',k:'ok'}],comps:[110,115,118,120,122,125,126,128,127,128,128,128]}
+{n:'VW-0341',h:'Barrett-Jackson',y:2023,mk:'Porsche',md:'911 GT3 Touring',cat:'Sports',bid:218500,w:47,c:'2h 14m',tint:'#c9a24a',ph:42,flags:[{t:'Service records complete — 2 dealer visits',k:'ok'},{t:'Minor stone chip, front bumper',k:'warn'}],comps:[195,200,198,205,210,208,215,220,218,225,222,218]},
+{n:'VW-0342',h:'Manheim',y:2019,mk:'Mercedes-Benz',md:'G63 AMG',cat:'SUV',bid:142000,w:38,c:'4h 02m',tint:'#4a5c6a',ph:28,flags:[{t:'CarFax clean — single owner',k:'ok'},{t:'Tire wear: 60% remaining',k:'warn'}],comps:[130,135,132,138,140,142,145,143,141,144,142,142]},
+{n:'VW-0343',h:'Mecum',y:1967,mk:'Shelby',md:'GT500 Fastback',cat:'Classic',bid:385000,w:89,c:'1d 06h',tint:'#6a3a2a',tier:'Platinum',ph:86,flags:[{t:'Matching numbers verified',k:'ok'},{t:'Concours restoration 2019',k:'ok'}],comps:[340,355,360,365,370,375,380,378,382,385,385,385]},
+{n:'VW-0344',h:'Copart',y:2022,mk:'Range Rover',md:'Autobiography',cat:'Luxury',bid:98500,w:22,c:'6h 48m',tint:'#3a4a3a',ph:19,flags:[{t:'Factory warranty transferable',k:'ok'},{t:'Infotainment software flag',k:'warn'}],comps:[92,94,93,96,97,95,98,99,98,98,99,98]},
+{n:'VW-0345',h:'Barrett-Jackson',y:2021,mk:'Lamborghini',md:'Huracán EVO',cat:'Exotic',bid:248000,w:64,c:'3h 27m',tint:'#8a4a1a',tier:'Platinum',ph:54,flags:[{t:'Carbon ceramics — 80% life',k:'ok'},{t:'One track day logged',k:'warn'}],comps:[232,238,240,245,242,248,250,248,246,248,249,248]},
+{n:'VW-0346',h:'Bring a Trailer',y:1989,mk:'BMW',md:'E30 M3',cat:'Classic',bid:128500,w:103,c:'12h 09m',tint:'#2a3a5a',ph:71,flags:[{t:'Documented ownership since new',k:'ok'},{t:'Original paint, minor patina',k:'ok'}],comps:[110,115,118,120,122,125,126,128,127,128,128,128]}
 ];
 function fmt(n){return '$'+n.toLocaleString()}
+let _filter='All';
 function render(){
-document.getElementById('grid').innerHTML=lots.map((l,i)=>`
+const shown=_filter==='All'?lots:lots.filter(l=>l.cat===_filter);
+document.getElementById('grid').innerHTML=shown.map((l)=>{const i=lots.indexOf(l);return `
 <div class="lot" onclick="openModal(${i})">
 <div class="field" style="background:linear-gradient(135deg,${l.tint},transparent)"></div>
 <div class="lot-top"><div class="mono lot-num">${l.n} · ${l.h}</div><button class="star" onclick="event.stopPropagation();this.classList.toggle('on')">★</button></div>
 <div class="mono cat">${l.cat}</div>
+<button class="photos" onclick="event.stopPropagation();openModal(${i})"><svg viewBox="0 0 24 24"><path d="M4 6h3l2-2h6l2 2h3v12H4V6zm8 3a4 4 0 100 8 4 4 0 000-8z"/></svg>${l.ph} Photos</button>
 <div class="title"><div class="year">${l.y}</div><div class="make">${l.mk}</div><div class="model">${l.md}</div></div>
 <div class="meta"><div><span class="mono">Current Bid</span><strong>${fmt(l.bid)}</strong></div><div><span class="mono">Watching</span><strong>${l.w}</strong></div><div><span class="mono">Closes</span><strong>${l.c}</strong></div><div><span class="mono">Auction</span><strong>${l.h.split(' ')[0]}</strong></div></div>
 <button class="bid-btn" onclick="event.stopPropagation();openModal(${i})">Request Concierge Bid</button>
 ${l.tier?`<div class="lock"><div class="mono">◆ ${l.tier} Tier</div><p>Upgrade membership to view and bid on this lot.</p></div>`:''}
-</div>`).join('');
+</div>`}).join('');
 }
 function sparkline(d){const min=Math.min(...d),max=Math.max(...d),w=280,h=60;const pts=d.map((v,i)=>`${(i/(d.length-1))*w},${h-((v-min)/(max-min||1))*h}`).join(' ');return `<svg class="spark" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="#c9a24a" stroke-width="1.5"/><polyline points="0,${h} ${pts} ${w},${h}" fill="rgba(201,162,74,.08)" stroke="none"/></svg>`}
 function openModal(i){
@@ -156,7 +168,20 @@ document.getElementById('feeBreak').innerHTML=`
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 function selTier(el,cost){document.querySelectorAll('.tier').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');window._transport=cost;const bv=document.getElementById('bidVal');if(bv)updateCalc(0,+bv.textContent.replace(/[^0-9]/g,''))}
-const acts=['<b>M. Chen</b> submitted bid on VW-0341','<b>47 members</b> viewing VW-0345','<b>R. Patel</b> won VW-0289 · $142,500','<b>New lot</b> VW-0347 · 2020 Ford GT','<b>K. Alvarez</b> favorited VW-0343','Comps updated · <b>12 lots</b>','<b>S. Okafor</b> requested concierge call'];
+const cats=['All',...new Set(lots.map(l=>l.cat))];
+document.getElementById('filters').innerHTML=cats.map(c=>`<button class="filt ${c==='All'?'on':''}" onclick="setFilter('${c}',this)">${c}</button>`).join('');
+function setFilter(c,el){_filter=c;document.querySelectorAll('.filt').forEach(b=>b.classList.remove('on'));el.classList.add('on');render()}
+const lbl=i=>`${lots[i].n} · ${lots[i].y} ${lots[i].mk} ${lots[i].md}`;
+const acts=[
+`<b>M. Chen</b> submitted bid on ${lbl(0)}`,
+`<b>47 members</b> viewing ${lbl(4)}`,
+`<b>R. Patel</b> favorited ${lbl(2)}`,
+`<b>New comps</b> updated for ${lbl(1)}`,
+`<b>K. Alvarez</b> requested concierge call on ${lbl(3)}`,
+`<b>S. Okafor</b> watching ${lbl(5)}`,
+`<b>D. Reyes</b> submitted bid on ${lbl(4)}`,
+`<b>12 members</b> viewing ${lbl(2)}`
+];
 document.getElementById('tick').innerHTML=(acts.concat(acts)).map(a=>`<span>● ${a}</span>`).join('');
 setTimeout(()=>document.getElementById('toast').classList.add('on'),1500);
 render();
