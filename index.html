@@ -67,7 +67,7 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 .filt:hover{color:var(--ink);border-color:var(--gold-dim)}
 .filt.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 .ticker{background:#100f0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:10px 0}
-.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 22s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 18s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
 .ticker-track b{color:var(--gold);font-weight:500}
 .ticker-track:hover{animation-play-state:paused}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -101,7 +101,7 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 <section class="hero">
 <div class="mono" style="color:var(--gold);margin-bottom:20px">● Private Access · Invitation Only</div>
 <h1>The auction floor, <em>reimagined</em> for members who never attend.</h1>
-<p>Curated wholesale inventory from Manheim, Barrett-Jackson, and Copart. Concierge bidding, transparent fees, transport included.</p>
+<p>Curated wholesale inventory from Manheim, Barrett-Jackson, and Copart. Concierge bidding and transparent fees.</p>
 <div class="badges">
 <div class="trust"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 4 9 9 10 5-1 9-5 9-10V7l-9-5zm0 10h7c-.5 4-3 6.5-7 7.9V12H5V8l7-4v8z"/></svg><span class="mono">Escrow.com Verified</span></div>
 <div class="trust"><span class="mono" style="color:var(--gold)">SOC 2 · KYC/AML</span></div>
@@ -122,7 +122,26 @@ const lots=[
 {n:'VW-0343',h:'Mecum',y:1967,mk:'Shelby',md:'GT500 Fastback',cat:'Classic',bid:385000,w:89,c:'1d 06h',tint:'#6a3a2a',tier:'Platinum',ph:86,flags:[{t:'Matching numbers verified',k:'ok'},{t:'Concours restoration 2019',k:'ok'}],comps:[340,355,360,365,370,375,380,378,382,385,385,385]},
 {n:'VW-0344',h:'Copart',y:2022,mk:'Range Rover',md:'Autobiography',cat:'Luxury',bid:98500,w:22,c:'6h 48m',tint:'#3a4a3a',ph:19,flags:[{t:'Factory warranty transferable',k:'ok'},{t:'Infotainment software flag',k:'warn'}],comps:[92,94,93,96,97,95,98,99,98,98,99,98]},
 {n:'VW-0345',h:'Barrett-Jackson',y:2021,mk:'Lamborghini',md:'Huracán EVO',cat:'Exotic',bid:248000,w:64,c:'3h 27m',tint:'#8a4a1a',tier:'Platinum',ph:54,flags:[{t:'Carbon ceramics — 80% life',k:'ok'},{t:'One track day logged',k:'warn'}],comps:[232,238,240,245,242,248,250,248,246,248,249,248]},
-{n:'VW-0346',h:'Bring a Trailer',y:1989,mk:'BMW',md:'E30 M3',cat:'Classic',bid:128500,w:103,c:'12h 09m',tint:'#2a3a5a',ph:71,flags:[{t:'Documented ownership since new',k:'ok'},{t:'Original paint, minor patina',k:'ok'}],comps:[110,115,118,120,122,125,126,128,127,128,128,128]}
+{n:'VW-0346',h:'Bring a Trailer',y:1989,mk:'BMW',md:'E30 M3',cat:'Classic',bid:128500,w:103,c:'12h 09m',tint:'#2a3a5a',ph:71,flags:[{t:'Documented ownership since new',k:'ok'},{t:'Original paint, minor patina',k:'ok'}],comps:[110,115,118,120,122,125,126,128,127,128,128,128]},
+{n:'VW-0347',h:'Barrett-Jackson',y:2023,mk:'Chevrolet',md:'Corvette Z06',cat:'Sports',bid:168000,w:52,c:'5h 18m',tint:'#c9a24a',ph:38,flags:[{t:'Z07 package, delivery miles',k:'ok'},{t:'One dealer demo drive',k:'warn'}],comps:[155,158,160,162,165,167,168,170,168,167,168,168]},
+{n:'VW-0348',h:'Manheim',y:2023,mk:'BMW',md:'M4 CSL',cat:'Sports',bid:142500,w:41,c:'8h 22m',tint:'#c9a24a',ph:33,flags:[{t:'1 of 1000 — numbered plaque',k:'ok'}],comps:[130,132,135,138,140,142,143,142,141,143,142,142]},
+{n:'VW-0349',h:'Bring a Trailer',y:2022,mk:'Audi',md:'R8 V10 Performance',cat:'Sports',bid:178000,w:36,c:'1d 02h',tint:'#c9a24a',ph:45,flags:[{t:'Carbon package, ceramic brakes',k:'ok'}],comps:[165,168,170,172,175,178,180,178,177,178,178,178]},
+{n:'VW-0350',h:'Copart',y:2023,mk:'Nissan',md:'GT-R Nismo',cat:'Sports',bid:195500,w:58,c:'3h 44m',tint:'#c9a24a',ph:40,flags:[{t:'Final production year',k:'ok'},{t:'Track use documented',k:'warn'}],comps:[180,185,188,190,192,195,196,195,194,195,195,195]},
+{n:'VW-0351',h:'Manheim',y:2023,mk:'Porsche',md:'Cayenne Turbo GT',cat:'SUV',bid:168500,w:29,c:'6h 11m',tint:'#4a5c6a',ph:31,flags:[{t:'Sport Chrono, PASM active',k:'ok'}],comps:[158,160,162,165,168,170,169,168,167,168,168,168]},
+{n:'VW-0352',h:'Barrett-Jackson',y:2024,mk:'Lexus',md:'LX 600 Ultra Luxury',cat:'SUV',bid:142000,w:24,c:'9h 33m',tint:'#4a5c6a',ph:26,flags:[{t:'Factory warranty 48mo',k:'ok'}],comps:[132,135,138,140,142,141,143,142,141,142,142,142]},
+{n:'VW-0353',h:'Copart',y:2022,mk:'Toyota',md:'Land Cruiser 300',cat:'SUV',bid:98000,w:33,c:'2h 50m',tint:'#4a5c6a',ph:22,flags:[{t:'Gray market import verified',k:'ok'}],comps:[88,90,92,94,96,98,99,98,97,98,98,98]},
+{n:'VW-0354',h:'Mecum',y:2023,mk:'Bentley',md:'Bentayga EWB',cat:'SUV',bid:215000,w:18,c:'1d 14h',tint:'#4a5c6a',ph:35,flags:[{t:'Mulliner specification',k:'ok'}],comps:[200,205,208,210,212,215,216,215,214,215,215,215]},
+{n:'VW-0355',h:'Mecum',y:1970,mk:'Chevrolet',md:'Chevelle SS 454',cat:'Classic',bid:165000,w:72,c:'2d 08h',tint:'#6a3a2a',ph:68,flags:[{t:'LS6 matching numbers',k:'ok'},{t:'Frame-off restoration 2018',k:'ok'}],comps:[145,150,155,158,160,162,165,163,164,165,165,165]},
+{n:'VW-0356',h:'Barrett-Jackson',y:1963,mk:'Chevrolet',md:'Corvette Split Window',cat:'Classic',bid:228000,w:94,c:'1d 19h',tint:'#6a3a2a',ph:78,flags:[{t:'Bloomington Gold certified',k:'ok'}],comps:[205,210,215,220,222,225,228,227,226,228,228,228]},
+{n:'VW-0357',h:'Bring a Trailer',y:1972,mk:'Datsun',md:'240Z',cat:'Classic',bid:78500,w:61,c:'16h 04m',tint:'#6a3a2a',ph:56,flags:[{t:'Original L24, triple Webers',k:'ok'}],comps:[68,70,72,74,75,76,78,79,78,78,78,78]},
+{n:'VW-0358',h:'Manheim',y:2023,mk:'Bentley',md:'Continental GT Speed',cat:'Luxury',bid:248000,w:28,c:'11h 27m',tint:'#3a4a3a',ph:32,flags:[{t:'Mulliner Blackline spec',k:'ok'}],comps:[230,235,238,242,245,248,249,248,247,248,248,248]},
+{n:'VW-0359',h:'Barrett-Jackson',y:2024,mk:'Rolls-Royce',md:'Ghost Extended',cat:'Luxury',bid:385000,w:19,c:'1d 22h',tint:'#3a4a3a',ph:38,flags:[{t:'Bespoke commission, 2 owners',k:'ok'}],comps:[360,365,370,375,380,385,386,385,384,385,385,385]},
+{n:'VW-0360',h:'Copart',y:2023,mk:'Mercedes-Maybach',md:'S680',cat:'Luxury',bid:218000,w:23,c:'7h 08m',tint:'#3a4a3a',ph:29,flags:[{t:'Executive rear package',k:'ok'}],comps:[200,205,210,213,215,218,219,218,217,218,218,218]},
+{n:'VW-0361',h:'Manheim',y:2024,mk:'Genesis',md:'G90 Ultimate',cat:'Luxury',bid:98500,w:15,c:'4h 56m',tint:'#3a4a3a',ph:24,flags:[{t:'CPO eligible',k:'ok'}],comps:[92,94,95,96,97,98,99,98,98,98,99,98]},
+{n:'VW-0362',h:'Mecum',y:2020,mk:'Ferrari',md:'488 Pista',cat:'Exotic',bid:448000,w:77,c:'14h 32m',tint:'#8a4a1a',tier:'Platinum',ph:62,flags:[{t:'Carbon wheels, Assetto Fiorano',k:'ok'}],comps:[420,430,435,440,445,448,450,449,448,448,448,448]},
+{n:'VW-0363',h:'Barrett-Jackson',y:2022,mk:'McLaren',md:'720S Spider',cat:'Exotic',bid:288000,w:49,c:'6h 41m',tint:'#8a4a1a',ph:51,flags:[{t:'MSO paint, low mileage',k:'ok'}],comps:[270,275,280,285,288,290,292,290,289,288,288,288]},
+{n:'VW-0364',h:'Bring a Trailer',y:2019,mk:'Aston Martin',md:'DB11 AMR',cat:'Exotic',bid:168000,w:31,c:'1d 08h',tint:'#8a4a1a',ph:44,flags:[{t:'Q by Aston Martin spec',k:'ok'}],comps:[155,158,160,162,165,168,169,168,167,168,168,168]},
+{n:'VW-0365',h:'Mecum',y:2021,mk:'Ford',md:'GT Carbon Series',cat:'Exotic',bid:1150000,w:112,c:'3d 02h',tint:'#8a4a1a',tier:'Platinum',ph:89,flags:[{t:'Delivery miles, original wrap',k:'ok'}],comps:[1050,1080,1100,1120,1140,1150,1155,1150,1148,1150,1150,1150]}
 ];
 function fmt(n){return '$'+n.toLocaleString()}
 let _filter='All';
@@ -150,26 +169,23 @@ document.getElementById('modalContent').innerHTML=`
 <div class="section"><h3>◆ AI Condition Analysis</h3><ul class="flags">${l.flags.map(f=>`<li class="${f.k==='warn'?'warn':''}">${f.t}</li>`).join('')}</ul></div>
 <div class="section"><h3>◆ 90-Day Comps</h3>${sparkline(l.comps)}<div class="spark-meta"><span>Low ${fmt(Math.min(...l.comps)*1000)}</span><span>Avg ${fmt(Math.round(l.comps.reduce((a,b)=>a+b)/l.comps.length)*1000)}</span><span>High ${fmt(Math.max(...l.comps)*1000)}</span></div></div>
 <div class="section calc"><h3>◆ Transparent Fee Calculator</h3><div class="mono" style="color:var(--mute)">Your max bid: <span id="bidVal">${fmt(l.bid+5000)}</span></div><input type="range" min="${l.bid}" max="${l.bid*1.3}" value="${l.bid+5000}" step="500" oninput="updateCalc(${i},this.value)"><div id="feeBreak"></div></div>
-<div class="section"><h3>◆ Transport Tier</h3><div class="tiers"><div class="tier sel" onclick="selTier(this,1200)">Open<b>$1,200</b></div><div class="tier" onclick="selTier(this,2400)">Enclosed<b>$2,400</b></div><div class="tier" onclick="selTier(this,4800)">White Glove<b>$4,800</b></div></div></div>
 <div class="section"><h3>◆ Trust & Security</h3><div class="trust" style="width:100%;justify-content:center"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--gold)"><path d="M12 2L3 7v6c0 5 4 9 9 10 5-1 9-5 9-10V7l-9-5z"/></svg><span class="mono">Funds held in Escrow.com until title transfer</span></div></div>
 <button class="bid-btn" style="margin-top:24px">Submit Concierge Bid Request</button>`;
 updateCalc(i,l.bid+5000);
 document.getElementById('modal').classList.add('on');
 }
 function updateCalc(i,v){
-v=+v;const t=window._transport||1200;const buyer=v*.05,concierge=1500,transport=t,escrow=v*.01,total=v+buyer+concierge+transport+escrow;
+v=+v;const buyer=v*.05,concierge=1500,escrow=v*.01,total=v+buyer+concierge+escrow;
 document.getElementById('bidVal').textContent=fmt(v);
 document.getElementById('feeBreak').innerHTML=`
 <div class="row"><span>Hammer</span><span>${fmt(v)}</span></div>
 <div class="row"><span>Buyer's Premium (5%)</span><span>${fmt(Math.round(buyer))}</span></div>
 <div class="row"><span>Concierge Fee</span><span>${fmt(concierge)}</span></div>
-<div class="row"><span>Transport (est)</span><span>${fmt(transport)}</span></div>
 <div class="row"><span>Escrow (1%)</span><span>${fmt(Math.round(escrow))}</span></div>
 <div class="row total"><span>All-In Total</span><span>${fmt(Math.round(total))}</span></div>`;
 }
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-function selTier(el,cost){document.querySelectorAll('.tier').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');window._transport=cost;const bv=document.getElementById('bidVal');if(bv)updateCalc(0,+bv.textContent.replace(/[^0-9]/g,''))}
 const cats=['All',...new Set(lots.map(l=>l.cat))];
 document.getElementById('filters').innerHTML=cats.map(c=>`<button class="filt ${c==='All'?'on':''}" onclick="setFilter('${c}',this)">${c}</button>`).join('');
 function setFilter(c,el){_filter=c;document.querySelectorAll('.filt').forEach(b=>b.classList.remove('on'));el.classList.add('on');render()}
@@ -181,8 +197,24 @@ const acts=[
 `<b>New comps</b> updated for ${lbl(1)}`,
 `<b>K. Alvarez</b> requested concierge call on ${lbl(3)}`,
 `<b>S. Okafor</b> watching ${lbl(5)}`,
-`<b>D. Reyes</b> submitted bid on ${lbl(4)}`,
-`<b>12 members</b> viewing ${lbl(2)}`
+`<b>D. Reyes</b> submitted bid on ${lbl(24)}`,
+`<b>12 members</b> viewing ${lbl(9)}`,
+`<b>J. Nakamura</b> submitted bid on ${lbl(8)}`,
+`<b>T. Brennan</b> favorited ${lbl(15)}`,
+`<b>New lot listed</b> — ${lbl(18)}`,
+`<b>28 members</b> viewing ${lbl(11)}`,
+`<b>L. Vasquez</b> requested concierge call on ${lbl(13)}`,
+`<b>A. Ferreira</b> submitted bid on ${lbl(19)}`,
+`<b>Comps refreshed</b> for ${lbl(7)}`,
+`<b>61 members</b> watching ${lbl(14)}`,
+`<b>P. Solberg</b> favorited ${lbl(22)}`,
+`<b>New lot listed</b> — ${lbl(10)}`,
+`<b>M. Dalloway</b> submitted bid on ${lbl(6)}`,
+`<b>18 members</b> viewing ${lbl(16)}`,
+`<b>E. Morozov</b> watching ${lbl(21)}`,
+`<b>H. Yamazaki</b> favorited ${lbl(12)}`,
+`<b>New comps</b> for ${lbl(17)}`,
+`<b>44 members</b> viewing ${lbl(20)}`
 ];
 document.getElementById('tick').innerHTML=(acts.concat(acts)).map(a=>`<span>● ${a}</span>`).join('');
 setTimeout(()=>document.getElementById('toast').classList.add('on'),1500);
