@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valley Wholesale — Private Auction Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0c0a;--gold:#c9a24a;--gold-dim:#8a6f33;--ink:#f5f0e6;--mute:#8a8578;--line:#23211c;--card:#14130f;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Fraunces',serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+header{border-bottom:1px solid var(--line);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:24px}
+nav a{color:var(--mute);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+nav a:hover{color:var(--gold)}
+.hero{padding:80px 32px 48px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1;letter-spacing:-.03em;max-width:900px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{color:var(--mute);margin-top:20px;max-width:560px;font-size:16px}
+.badges{display:flex;gap:16px;margin-top:28px;flex-wrap:wrap;align-items:center}
+.trust{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--gold-dim);border-radius:2px;background:rgba(201,162,74,.05)}
+.trust svg{width:14px;height:14px;fill:var(--gold)}
+.trust .mono{color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.lot{background:var(--card);padding:28px;position:relative;min-height:360px;display:flex;flex-direction:column;cursor:pointer;transition:background .2s}
+.lot:hover{background:#181611}
+.field{position:absolute;top:0;left:0;right:0;height:140px;opacity:.15}
+.lot-top{display:flex;justify-content:space-between;position:relative;z-index:2}
+.lot-num{color:var(--gold)}
+.star{background:none;border:none;color:var(--mute);font-size:18px;cursor:pointer}
+.star.on{color:var(--gold)}
+.cat{position:absolute;right:28px;top:50%;transform:rotate(90deg) translateX(-50%);transform-origin:right top;color:var(--mute)}
+.title{margin-top:auto;position:relative;z-index:2}
+.year{color:var(--mute);font-size:13px}
+.make{font-size:28px;font-weight:400;line-height:1.1;letter-spacing:-.01em;margin-top:4px}
+.model{font-style:italic;color:var(--gold);font-size:18px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);position:relative;z-index:2}
+.meta div .mono{color:var(--mute);display:block;margin-bottom:2px}
+.meta div strong{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink);font-weight:500}
+.bid-btn{margin-top:16px;width:100%;padding:12px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;transition:all .2s}
+.bid-btn:hover{background:var(--gold);color:var(--bg)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;padding:20px;overflow-y:auto}
+.modal.on{display:flex;align-items:flex-start;justify-content:center}
+.modal-body{background:var(--card);border:1px solid var(--gold-dim);max-width:640px;width:100%;padding:36px;margin:40px auto;position:relative}
+.close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--mute);font-size:24px;cursor:pointer}
+.modal h2{font-size:28px;font-weight:400;margin-bottom:6px}
+.modal h2 em{color:var(--gold);font-style:italic}
+.section{margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.section h3{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:14px}
+.flags li{list-style:none;padding:10px 12px;background:rgba(201,162,74,.06);border-left:2px solid var(--gold);margin-bottom:6px;font-size:14px}
+.flags li.warn{border-color:#c96a4a;background:rgba(201,106,74,.06)}
+.calc input[type=range]{width:100%;accent-color:var(--gold);margin:10px 0}
+.calc .row{display:flex;justify-content:space-between;padding:6px 0;font-family:'JetBrains Mono',monospace;font-size:12px}
+.calc .row.total{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;color:var(--gold);font-size:14px}
+.spark{height:60px;width:100%;margin-top:8px}
+.spark-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);margin-top:4px}
+footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text-align:center}
+.ticker{background:#100f0b;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:10px 0}
+.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+.ticker-track b{color:var(--gold);font-weight:500}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.lock{position:absolute;inset:0;background:rgba(13,12,10,.82);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:3;text-align:center;padding:20px}
+.lock .mono{color:var(--gold);margin-bottom:8px}
+.lock p{color:var(--ink);font-size:15px;max-width:240px}
+.toast{position:fixed;top:90px;right:20px;background:var(--card);border:1px solid var(--gold);padding:16px 20px;max-width:320px;z-index:50;transform:translateX(400px);transition:transform .4s;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+.toast.on{transform:translateX(0)}
+.toast .mono{color:var(--gold);display:block;margin-bottom:4px}
+.toast p{font-size:14px}
+.toast button{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--mute);cursor:pointer;font-size:16px}
+.chat-bubble{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--gold);color:var(--bg);border:none;font-size:24px;cursor:pointer;z-index:40;box-shadow:0 6px 20px rgba(201,162,74,.4)}
+.chat-panel{position:fixed;bottom:92px;right:24px;width:320px;max-width:calc(100vw - 32px);background:var(--card);border:1px solid var(--gold-dim);display:none;z-index:41;padding:20px}
+.chat-panel.on{display:block}
+.chat-panel h4{font-family:'Fraunces',serif;font-weight:400;margin-bottom:4px}
+.chat-panel .msg{background:rgba(201,162,74,.08);padding:10px 12px;margin-top:12px;font-size:13px;border-left:2px solid var(--gold)}
+.chat-panel input{width:100%;margin-top:12px;padding:10px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:inherit}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.tier{padding:12px 8px;border:1px solid var(--line);cursor:pointer;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase}
+.tier.sel{border-color:var(--gold);background:rgba(201,162,74,.08);color:var(--gold)}
+.tier b{display:block;font-size:13px;color:var(--ink);margin-top:4px}
+@media(max-width:600px){.hero{padding:48px 20px 32px}header{padding:16px 20px}nav{display:none}.lot{padding:20px}.cat{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Valley<span>Wholesale</span></div>
+<nav><a href="#">Lots</a><a href="#">Intel</a><a href="#">Concierge</a><a href="#">Member</a></nav>
+</header>
+<section class="hero">
+<div class="mono" style="color:var(--gold);margin-bottom:20px">● Private Access · Invitation Only</div>
+<h1>The auction floor, <em>reimagined</em> for members who never attend.</h1>
+<p>Curated wholesale inventory from Manheim, Barrett-Jackson, and Copart. Concierge bidding, transparent fees, transport included.</p>
+<div class="badges">
+<div class="trust"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 4 9 9 10 5-1 9-5 9-10V7l-9-5zm0 10h7c-.5 4-3 6.5-7 7.9V12H5V8l7-4v8z"/></svg><span class="mono">Escrow.com Verified</span></div>
+<div class="trust"><span class="mono" style="color:var(--gold)">SOC 2 · KYC/AML</span></div>
+</div>
+</section>
+<div class="ticker"><div class="ticker-track" id="tick"></div></div>
+<div class="grid" id="grid"></div>
+<div class="toast" id="toast"><button onclick="this.parentElement.classList.remove('on')">×</button><span class="mono">● New Lot Alert</span><p>1967 Shelby GT500 just listed — matches your saved criteria.</p></div>
+<button class="chat-bubble" onclick="document.getElementById('chat').classList.toggle('on')">◆</button>
+<div class="chat-panel" id="chat"><h4>Concierge</h4><div class="mono" style="color:var(--mute)">AI-assisted · 24/7</div><div class="msg">Hi — I can help you evaluate lots, compare comps, or submit a bid request. What are you looking at?</div><input placeholder="Ask about a lot…"></div>
+<div class="modal" id="modal"><div class="modal-body"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<footer><div class="mono">Valley Wholesale © 2026 · Members Only</div></footer>
+<script>
+const lots=[
+{n:'VW-0341',h:'Barrett-Jackson',y:2023,mk:'Porsche',md:'911 GT3 Touring',cat:'Sports',bid:218500,w:47,c:'2h 14m',tint:'#c9a24a',flags:[{t:'Service records complete — 2 dealer visits',k:'ok'},{t:'Minor stone chip, front bumper',k:'warn'}],comps:[195,200,198,205,210,208,215,220,218,225,222,218]},
+{n:'VW-0342',h:'Manheim',y:2019,mk:'Mercedes-Benz',md:'G63 AMG',cat:'SUV',bid:142000,w:38,c:'4h 02m',tint:'#4a5c6a',flags:[{t:'CarFax clean — single owner',k:'ok'},{t:'Tire wear: 60% remaining',k:'warn'}],comps:[130,135,132,138,140,142,145,143,141,144,142,142]},
+{n:'VW-0343',h:'Mecum',y:1967,mk:'Shelby',md:'GT500 Fastback',cat:'Classic',bid:385000,w:89,c:'1d 06h',tint:'#6a3a2a',tier:'Platinum',flags:[{t:'Matching numbers verified',k:'ok'},{t:'Concours restoration 2019',k:'ok'}],comps:[340,355,360,365,370,375,380,378,382,385,385,385]},
+{n:'VW-0344',h:'Copart',y:2022,mk:'Range Rover',md:'Autobiography',cat:'Luxury',bid:98500,w:22,c:'6h 48m',tint:'#3a4a3a',flags:[{t:'Factory warranty transferable',k:'ok'},{t:'Infotainment software flag',k:'warn'}],comps:[92,94,93,96,97,95,98,99,98,98,99,98]},
+{n:'VW-0345',h:'Barrett-Jackson',y:2021,mk:'Lamborghini',md:'Huracán EVO',cat:'Exotic',bid:248000,w:64,c:'3h 27m',tint:'#8a4a1a',tier:'Platinum',flags:[{t:'Carbon ceramics — 80% life',k:'ok'},{t:'One track day logged',k:'warn'}],comps:[232,238,240,245,242,248,250,248,246,248,249,248]},
+{n:'VW-0346',h:'Bring a Trailer',y:1989,mk:'BMW',md:'E30 M3',cat:'Classic',bid:128500,w:103,c:'12h 09m',tint:'#2a3a5a',flags:[{t:'Documented ownership since new',k:'ok'},{t:'Original paint, minor patina',k:'ok'}],comps:[110,115,118,120,122,125,126,128,127,128,128,128]}
+];
+function fmt(n){return '$'+n.toLocaleString()}
+function render(){
+document.getElementById('grid').innerHTML=lots.map((l,i)=>`
+<div class="lot" onclick="openModal(${i})">
+<div class="field" style="background:linear-gradient(135deg,${l.tint},transparent)"></div>
+<div class="lot-top"><div class="mono lot-num">${l.n} · ${l.h}</div><button class="star" onclick="event.stopPropagation();this.classList.toggle('on')">★</button></div>
+<div class="mono cat">${l.cat}</div>
+<div class="title"><div class="year">${l.y}</div><div class="make">${l.mk}</div><div class="model">${l.md}</div></div>
+<div class="meta"><div><span class="mono">Current Bid</span><strong>${fmt(l.bid)}</strong></div><div><span class="mono">Watching</span><strong>${l.w}</strong></div><div><span class="mono">Closes</span><strong>${l.c}</strong></div><div><span class="mono">Auction</span><strong>${l.h.split(' ')[0]}</strong></div></div>
+<button class="bid-btn" onclick="event.stopPropagation();openModal(${i})">Request Concierge Bid</button>
+${l.tier?`<div class="lock"><div class="mono">◆ ${l.tier} Tier</div><p>Upgrade membership to view and bid on this lot.</p></div>`:''}
+</div>`).join('');
+}
+function sparkline(d){const min=Math.min(...d),max=Math.max(...d),w=280,h=60;const pts=d.map((v,i)=>`${(i/(d.length-1))*w},${h-((v-min)/(max-min||1))*h}`).join(' ');return `<svg class="spark" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="#c9a24a" stroke-width="1.5"/><polyline points="0,${h} ${pts} ${w},${h}" fill="rgba(201,162,74,.08)" stroke="none"/></svg>`}
+function openModal(i){
+const l=lots[i];
+document.getElementById('modalContent').innerHTML=`
+<div class="mono" style="color:var(--gold)">${l.n} · ${l.h}</div>
+<h2 style="margin-top:8px">${l.y} ${l.mk} <em>${l.md}</em></h2>
+<div class="mono" style="color:var(--mute);margin-top:8px">Current Bid: ${fmt(l.bid)} · ${l.w} watching · Closes ${l.c}</div>
+<div class="section"><h3>◆ AI Condition Analysis</h3><ul class="flags">${l.flags.map(f=>`<li class="${f.k==='warn'?'warn':''}">${f.t}</li>`).join('')}</ul></div>
+<div class="section"><h3>◆ 90-Day Comps</h3>${sparkline(l.comps)}<div class="spark-meta"><span>Low ${fmt(Math.min(...l.comps)*1000)}</span><span>Avg ${fmt(Math.round(l.comps.reduce((a,b)=>a+b)/l.comps.length)*1000)}</span><span>High ${fmt(Math.max(...l.comps)*1000)}</span></div></div>
+<div class="section calc"><h3>◆ Transparent Fee Calculator</h3><div class="mono" style="color:var(--mute)">Your max bid: <span id="bidVal">${fmt(l.bid+5000)}</span></div><input type="range" min="${l.bid}" max="${l.bid*1.3}" value="${l.bid+5000}" step="500" oninput="updateCalc(${i},this.value)"><div id="feeBreak"></div></div>
+<div class="section"><h3>◆ Transport Tier</h3><div class="tiers"><div class="tier sel" onclick="selTier(this,1200)">Open<b>$1,200</b></div><div class="tier" onclick="selTier(this,2400)">Enclosed<b>$2,400</b></div><div class="tier" onclick="selTier(this,4800)">White Glove<b>$4,800</b></div></div></div>
+<div class="section"><h3>◆ Trust & Security</h3><div class="trust" style="width:100%;justify-content:center"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--gold)"><path d="M12 2L3 7v6c0 5 4 9 9 10 5-1 9-5 9-10V7l-9-5z"/></svg><span class="mono">Funds held in Escrow.com until title transfer</span></div></div>
+<button class="bid-btn" style="margin-top:24px">Submit Concierge Bid Request</button>`;
+updateCalc(i,l.bid+5000);
+document.getElementById('modal').classList.add('on');
+}
+function updateCalc(i,v){
+v=+v;const t=window._transport||1200;const buyer=v*.05,concierge=1500,transport=t,escrow=v*.01,total=v+buyer+concierge+transport+escrow;
+document.getElementById('bidVal').textContent=fmt(v);
+document.getElementById('feeBreak').innerHTML=`
+<div class="row"><span>Hammer</span><span>${fmt(v)}</span></div>
+<div class="row"><span>Buyer's Premium (5%)</span><span>${fmt(Math.round(buyer))}</span></div>
+<div class="row"><span>Concierge Fee</span><span>${fmt(concierge)}</span></div>
+<div class="row"><span>Transport (est)</span><span>${fmt(transport)}</span></div>
+<div class="row"><span>Escrow (1%)</span><span>${fmt(Math.round(escrow))}</span></div>
+<div class="row total"><span>All-In Total</span><span>${fmt(Math.round(total))}</span></div>`;
+}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+function selTier(el,cost){document.querySelectorAll('.tier').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');window._transport=cost;const bv=document.getElementById('bidVal');if(bv)updateCalc(0,+bv.textContent.replace(/[^0-9]/g,''))}
+const acts=['<b>M. Chen</b> submitted bid on VW-0341','<b>47 members</b> viewing VW-0345','<b>R. Patel</b> won VW-0289 · $142,500','<b>New lot</b> VW-0347 · 2020 Ford GT','<b>K. Alvarez</b> favorited VW-0343','Comps updated · <b>12 lots</b>','<b>S. Okafor</b> requested concierge call'];
+document.getElementById('tick').innerHTML=(acts.concat(acts)).map(a=>`<span>● ${a}</span>`).join('');
+setTimeout(()=>document.getElementById('toast').classList.add('on'),1500);
+render();
+</script>
+</body>
+</html>
