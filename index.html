@@ -144,7 +144,12 @@ footer{padding:40px 32px;border-top:1px solid var(--line);color:var(--mute);text
 <body>
 <header>
 <div class="logo">Valley<span>Wholesale</span></div>
-<nav><a href="#">Lots</a><a href="#">Intel</a><a href="#">Concierge</a><a href="#">Member</a></nav><button class="burger" onclick="document.querySelector('nav').classList.toggle('on')">☰</button>
+<nav>
+<a href="#" onclick="navTo(event,'.grid')">Lots</a>
+<a href="#" onclick="navTo(event,'.how')">Intel</a>
+<a href="#" onclick="navTo(event,null,true)">Concierge</a>
+<a href="#" onclick="navTo(event,'.pricing')">Member</a>
+</nav><button class="burger" onclick="document.querySelector('nav').classList.toggle('on')">☰</button>
 </header>
 <section class="hero">
 <div class="mono" style="color:var(--gold);margin-bottom:20px">● Private Access · Invitation Only</div>
@@ -277,6 +282,7 @@ document.getElementById('feeBreak').innerHTML=`
 <div class="row"><span>Escrow (1%)</span><span>${fmt(Math.round(escrow))}</span></div>
 <div class="row total"><span>All-In Total</span><span>${fmt(Math.round(total))}</span></div>`;
 }
+function navTo(e,sel,chat){e.preventDefault();document.querySelector('nav').classList.remove('on');if(chat){document.getElementById('chat').classList.add('on');return}if(sel)document.querySelector(sel).scrollIntoView({behavior:'smooth'})}
 function scrollToPricing(){document.querySelector('.pricing').scrollIntoView({behavior:'smooth',block:'start'})}
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
