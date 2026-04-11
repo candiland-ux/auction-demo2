@@ -244,11 +244,11 @@ const lots=[
 function fmt(n){return '$'+n.toLocaleString()}
 let _filter='All';
 function render(){
-const shown=_filter==='All'?lots:lots.filter(l=>l.cat===_filter);
+const shown=_filter==='All'?lots:_filter==='★ Favorites'?lots.filter(l=>favs.has(l.n)):lots.filter(l=>l.cat===_filter);
 document.getElementById('grid').innerHTML=shown.map((l)=>{const i=lots.indexOf(l);return `
 <div class="lot" onclick="openModal(${i})">
 <div class="field" style="background:linear-gradient(135deg,${l.tint},transparent)"></div>
-<div class="lot-top"><div class="mono lot-num">${l.n} · ${l.h}</div><button class="star" onclick="event.stopPropagation();this.classList.toggle('on')">★</button></div>
+<div class="lot-top"><div class="mono lot-num">${l.n} · ${l.h}</div><button class="star ${favs.has(l.n)?'on':''}" onclick="toggleFav('${l.n}',this,event)">★</button></div>
 <div class="mono cat">${l.cat}</div>
 <button class="photos" onclick="event.stopPropagation();openModal(${i})"><svg viewBox="0 0 24 24"><path d="M4 6h3l2-2h6l2 2h3v12H4V6zm8 3a4 4 0 100 8 4 4 0 000-8z"/></svg>${l.ph} Photos</button>
 <div class="title"><div class="year">${l.y}</div><div class="make">${l.mk}</div><div class="model">${l.md}</div></div>
@@ -286,7 +286,7 @@ function navTo(e,sel,chat){e.preventDefault();document.querySelector('nav').clas
 function scrollToPricing(){document.querySelector('.pricing').scrollIntoView({behavior:'smooth',block:'start'})}
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-const cats=['All',...new Set(lots.map(l=>l.cat))];
+const cats=['All',...new Set(lots.map(l=>l.cat)),'★ Favorites'];
 const catCount=c=>c==='All'?lots.length:lots.filter(l=>l.cat===c).length;
 document.getElementById('filters').innerHTML=cats.map(c=>`<button class="filt ${c==='All'?'on':''}" onclick="setFilter('${c}',this)">${c} <span style='color:var(--mute);margin-left:4px'>${catCount(c)}</span></button>`).join('');
 function setFilter(c,el){_filter=c;document.querySelectorAll('.filt').forEach(b=>b.classList.remove('on'));el.classList.add('on');render()}
