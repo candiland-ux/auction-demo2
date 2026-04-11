@@ -241,6 +241,18 @@ const lots=[
 {n:'VW-0192',h:'Mecum',y:2021,mk:'Ford',md:'GT Carbon Series',cat:'Exotic',bid:1150000,w:112,c:'3d 02h',tint:'#8a4a1a',tier:'Platinum',ph:89,flags:[{t:'Delivery miles, original wrap',k:'ok'}],comps:[1050,1080,1100,1120,1140,1150,1155,1150,1148,1150,1150,1150]}
 ];
 function fmt(n){return '$'+n.toLocaleString()}
+  const favs = new Set();
+function toggleFav(n, el, e) {
+  e.stopPropagation();
+  if (favs.has(n)) {
+    favs.delete(n);
+    el.classList.remove('on');
+  } else {
+    favs.add(n);
+    el.classList.add('on');
+  }
+  if (_filter === '★ Favorites') render();
+}
 let _filter='All';
 function render(){
 const shown=_filter==='All'?lots:_filter==='★ Favorites'?lots.filter(l=>favs.has(l.n)):lots.filter(l=>l.cat===_filter);
