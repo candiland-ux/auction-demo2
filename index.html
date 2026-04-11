@@ -295,7 +295,8 @@ function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 const cats=['All',...new Set(lots.map(l=>l.cat)),'★ Favorites'];
 const catCount=c=>c==='All'?lots.length:c==='★ Favorites'?favs.size:lots.filter(l=>l.cat===c).length;
-document.getElementById('filters').innerHTML=cats.map(c=>`<button class="filt ${c==='All'?'on':''}" onclick="setFilter('${c}',this)">${c} <span style='color:var(--mute);margin-left:4px'>${catCount(c)}</span></button>`).join('');
+function renderFilters(){document.getElementById('filters').innerHTML=cats.map(c=>`<button class="filt ${c===_filter?'on':''}" onclick="setFilter('${c}',this)">${c} <span style='color:var(--mute);margin-left:4px'>${catCount(c)}</span></button>`).join('')}
+renderFilters();
 function setFilter(c,el){_filter=c;document.querySelectorAll('.filt').forEach(b=>b.classList.remove('on'));el.classList.add('on');render()}
 const lbl=i=>`${lots[i].n} · ${lots[i].y} ${lots[i].mk} ${lots[i].md}`;
 const acts=[
